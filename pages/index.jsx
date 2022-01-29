@@ -1,47 +1,28 @@
 import Head from "next/head";
-import Image from "next/image";
-import { MoonIcon, SearchIcon, SunIcon } from "@heroicons/react/outline";
-import ArtistCard from "../components/ArtistCard";
-import { useTheme } from "next-themes";
-import { useMemo, useState } from "react";
+import { SearchIcon } from "@heroicons/react/outline";
+
+import { useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import { format_nums } from "../utils";
 import EventCard from "../components/EventCard";
 
-const data = {
-  id: "25888",
-  name: "Chris Brown",
-  url: "https://www.bandsintown.com/a/25888?came_from=267&app_id=abc",
-  mbid: "c234fa42-e6a6-443e-937e-2f4b073538a3",
-  options: {
-    display_listen_unit: false,
-  },
-  tracking: [],
-  image_url: "https://photos.bandsintown.com/large/8442994.jpeg",
-  thumb_url: "https://photos.bandsintown.com/thumb/8442994.jpeg",
-  facebook_page_url: "http://www.facebook.com/6329881653",
-  tracker_count: 3933882,
-  upcoming_event_count: 3,
-  support_url: "",
-  links: [
-    {
-      type: "website",
-      url: "http://www.chrisbrownworld.com/",
-    },
-    {
-      type: "facebook",
-      url: "https://www.facebook.com/chrisbrown/",
-    },
-  ],
-};
 export default function Home() {
   const [query, setQuery] = useState("");
   const [artistResult, setartistResult] = useState(null);
   const [searchingArtist, setSearchingArtist] = useState(false);
   const [searchingEvents, setSearchingEvents] = useState(false);
   const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("searchedQuery")) {
+      let searchedQuery = localStorage.getItem("searchedQuery");
+      setQuery(searchedQuery);
+      setSearchingArtist(true);
+      searchArtist(searchedQuery);
+    }
+  }, []);
 
   const changeHandler = (event) => {
     let searchedQuery = event.target.value;

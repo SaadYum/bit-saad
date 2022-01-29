@@ -114,7 +114,9 @@ export default function Home() {
         ) : query ? (
           <>
             <span className="text-lg font bold">
-              {artistResult ? "Artist found" : "No Artists found for " + query}
+              {artistResult
+                ? "Artist found for '" + query + "'"
+                : "No Artists found for " + query}
             </span>
 
             {/* ARTIST INFO HEADER */}

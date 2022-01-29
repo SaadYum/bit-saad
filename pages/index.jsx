@@ -39,7 +39,9 @@ export default function Home() {
   const searchArtist = (artist_query) => {
     if (artist_query) {
       axios
-        .get(`https://rest.bandsintown.com/artists/${artist_query}?app_id=abc`)
+        .get(
+          `https://rest.bandsintown.com/artists/${artist_query}?app_id=${process.env.NEXT_PUBLIC_APP_ID}`
+        )
         .then((res) => {
           if (!res.data.error) {
             setartistResult(res.data);
@@ -61,7 +63,7 @@ export default function Home() {
     setSearchingEvents(true);
     axios
       .get(
-        `https://rest.bandsintown.com/artists/${artist_query}/events?app_id=abc`
+        `https://rest.bandsintown.com/artists/${artist_query}/events?app_id=${process.env.NEXT_PUBLIC_APP_ID}`
       )
       .then((res) => {
         if (!res.data.error) {

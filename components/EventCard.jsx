@@ -1,9 +1,9 @@
 import React from "react";
 
-function EventCard({ data, key }) {
+function EventCard({ data, eventKey }) {
   return (
     <div
-      key={key}
+      key={eventKey}
       className=" flex flex-col h-44 mx-2 p-4 shadow-xl cursor-pointer hover:scale-110 transition-all duration-200"
     >
       <span className="border-b-2 w-full font-medium">EVENT DETAILS</span>

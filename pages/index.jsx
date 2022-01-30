@@ -5,12 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-import { format_nums } from "../utils";
+import { format_nums } from "../utils/utils";
 import EventCard from "../components/EventCard";
+import { getArtistEventsAPI, searchArtistAPI } from "../utils/api";
 
 export default function Home() {
   const [query, setQuery] = useState("");
-  const [artistResult, setartistResult] = useState(null);
+  const [artistResult, setArtistResult] = useState(null);
   const [searchingArtist, setSearchingArtist] = useState(false);
   const [searchingEvents, setSearchingEvents] = useState(false);
   const [events, setEvents] = useState([]);
@@ -19,7 +20,6 @@ export default function Home() {
     if (localStorage.getItem("searchedQuery")) {
       let searchedQuery = localStorage.getItem("searchedQuery");
       setQuery(searchedQuery);
-      setSearchingArtist(true);
       searchArtist(searchedQuery);
     }
   }, []);
@@ -28,7 +28,6 @@ export default function Home() {
     let searchedQuery = event.target.value;
     localStorage.setItem("searchedQuery", searchedQuery);
     setQuery(searchedQuery);
-    setSearchingArtist(true);
     searchArtist(searchedQuery);
   };
   const debouncedChangeHandler = useMemo(
@@ -38,62 +37,41 @@ export default function Home() {
 
   const searchArtist = (artist_query) => {
     if (artist_query) {
-      axios
-        .get(
-          `https://rest.bandsintown.com/artists/${artist_query}?app_id=${process.env.NEXT_PUBLIC_APP_ID}`
-        )
+      setSearchingArtist(true);
+      searchArtistAPI(artist_query)
         .then((res) => {
-          if (!res.data.error) {
-            setartistResult(res.data);
-            localStorage.setItem("artistResults", res.data);
-            setTimeout(getArtistEvents(artist_query), 1000);
-          } else {
-            setartistResult(null);
-          }
+          setArtistResult(res);
+          localStorage.setItem("artistResults", res);
+          setTimeout(getArtistEvents(artist_query), 1000);
           setSearchingArtist(false);
         })
         .catch((err) => {
-          setartistResult(null);
+          setArtistResult(null);
           setSearchingArtist(false);
         });
     }
   };
 
   const getArtistEvents = (artist_query) => {
-    setSearchingEvents(true);
-    axios
-      .get(
-        `https://rest.bandsintown.com/artists/${artist_query}/events?app_id=${process.env.NEXT_PUBLIC_APP_ID}`
-      )
-      .then((res) => {
-        if (!res.data.error) {
-          setEvents(res.data);
-          localStorage.setItem("artistEvents", res.data);
-        } else {
+    if (artist_query) {
+      setSearchingEvents(true);
+      getArtistEventsAPI(artist_query)
+        .then((res) => {
+          setEvents(res);
+          localStorage.setItem("artistEvents", res);
+
+          setSearchingEvents(false);
+        })
+        .catch((err) => {
+          console.log("EVENT ERR: ", err);
           setEvents([]);
-        }
-        setSearchingEvents(false);
-      })
-      .catch((err) => {
-        setEvents([]);
-        setSearchingEvents(false);
-      });
+          setSearchingEvents(false);
+        });
+    }
   };
 
   return (
     <div className="w-screen">
-      <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Bands in Town App" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
       {/* Main Section */}
       <main className="flex flex-col p-4 w-full center bg-transparent">
         {/* Search Input */}
@@ -172,7 +150,7 @@ export default function Home() {
                     {/* EVENTS */}
                     <div className=" grid gap-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  md:w-full mt-2 px-16 custom-scroll 2xl:h-[60vh] xl:h-[50vh]  ">
                       {events.map((event, index) => (
-                        <EventCard data={event} key={index + "event"} />
+                        <EventCard data={event} eventKey={index + "event"} />
                       ))}
                     </div>
                   </>

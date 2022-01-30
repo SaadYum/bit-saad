@@ -150,7 +150,9 @@ export default function Home() {
                     {/* EVENTS */}
                     <div className=" grid gap-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  md:w-full mt-2 px-16 custom-scroll 2xl:h-[60vh] xl:h-[50vh]  ">
                       {events.map((event, index) => (
-                        <EventCard data={event} eventKey={index + "event"} />
+                        <div key={index + "event"}>
+                          <EventCard data={event} />
+                        </div>
                       ))}
                     </div>
                   </>

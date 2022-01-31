@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bands In Town App
 
-## Getting Started
+## Prerequisites
 
-First, run the development server:
+- Latest Version of [Node](https://nodejs.org/en/) should be installed on your system.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Basic setup
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Clone the repo from Github.
+2. Open the Repo Local Directory with any kind of your favourite Terminal e.g.cmd
+3. Run command: 'npm install' (It will automatically install all the dependencies)
+4. Run command: npm run dev (It'll start your development server on localhost:3000 by default)
+   Thats it!!
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Architecture and TechStack
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- [React.JS](https://reactjs.org/)
+- [Next.JS](https://nextjs.org/)
+- [Tailwind_CSS](https://tailwindcss.com/)
+- [Jest](https://jestjs.io/)
+- [Github](https://github.com/)
+- [Netlify](https://www.netlify.com/)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## NOTES
 
-## Learn More
+- The Google Map component gives an alert on loading because of the lack of API key. It's just for additional purposes so I didn't bought any key. Just click OK.
 
-To learn more about Next.js, take a look at the following resources:
+## Bonus Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Cache
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The last entered artist and events across browser reloads/refreshes persists. I used localstorage for this.
 
-## Deploy on Vercel
+### Creative
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Dark Mode
+2.  Additional Modal UI with Google Maps integrated for artist event location. You can access it by clicking on any event card.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Deployment
+
+I've setup the Github repo with Netlify. The App is live [Here](https://61f7b7434e180a0007579c80--bit-test.netlify.app/)

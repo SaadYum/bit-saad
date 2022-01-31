@@ -80,7 +80,7 @@ export default function Home() {
           <div className="flex items-center justify-between relative rounded-full xl:text-lg lg:text-sm md:text-xs border-[1px] border-gray-300 p-3  ">
             <input
               type="text"
-              placeholder="Search Artists"
+              placeholder={query ? query : "Search Artists"}
               onChange={debouncedChangeHandler}
               className="outline-none  focus:py-1 focus:px-2 bg-transparent transition-all duration-300"
             />

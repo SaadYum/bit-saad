@@ -34,7 +34,7 @@ The last entered artist and events across browser reloads/refreshes persists. I 
 ### Creative
 
 1.  Dark Mode
-2.  Additional Modal UI with Google Maps integrated for artist event location. You can access it by clicking on any event card.
+2.  Additional Modal UI with Google Maps integrated. The Artist event location is located by it's Avatar Marker. You can open Modal by clicking on any event card.
 
 ### Deployment
 

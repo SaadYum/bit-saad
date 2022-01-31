@@ -8,6 +8,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { format_nums } from "../utils/utils";
 import EventCard from "../components/EventCard";
 import { getArtistEventsAPI, searchArtistAPI } from "../utils/api";
+import ReactTooltip from "react-tooltip";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -123,6 +124,7 @@ export default function Home() {
                         {artistResult.facebook_page_url ? (
                           <>
                             <a
+                              data-tip="Open"
                               href={artistResult.facebook_page_url}
                               target="blank"
                             >
@@ -150,6 +152,7 @@ export default function Home() {
                   <>
                     {/* EVENTS */}
                     <div className=" grid gap-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  md:w-full mt-2 px-16 custom-scroll 2xl:h-[60vh] xl:h-[50vh]  ">
+                      <ReactTooltip place="top" type="dark" effect="solid" />
                       {events.map((event, index) => (
                         <div key={index + "event"}>
                           <EventCard

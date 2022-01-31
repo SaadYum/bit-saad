@@ -7,10 +7,9 @@ function DarkModeSwitch() {
 
   return (
     <div>
-      <button
+      <div
         aria-label="Toggle Dark Mode"
-        type="button"
-        className="fixed right-8 top-8 p-3 h-12 w-12  cursor-pointer hover:scale-125 transition-transform duration-150"
+        className="fixed right-8 top-8  center h-10 w-10 rounded-full bg-gray-400/20 hover:bg-gray-200/20  cursor-pointer hover:scale-125 transition-transform duration-150"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
         {theme === "dark" ? (
@@ -18,7 +17,7 @@ function DarkModeSwitch() {
         ) : (
           <MoonIcon className="w-5 h-5" />
         )}
-      </button>
+      </div>
     </div>
   );
 }

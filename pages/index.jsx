@@ -13,10 +13,13 @@ import ReactTooltip from "react-tooltip";
 export default function Home() {
   const [query, setQuery] = useState("");
   const [artistResult, setArtistResult] = useState(null);
-  const [searchingArtist, setSearchingArtist] = useState(false);
-  const [searchingEvents, setSearchingEvents] = useState(false);
+  const [searchingArtist, setSearchingArtist] = useState(false); // Search State flag for Artist API
+  const [searchingEvents, setSearchingEvents] = useState(false); // Search State flag for Events API
   const [events, setEvents] = useState([]);
 
+  // Checking on initial render for the last searched artist
+  // If searchedQuery property is present in the localstorage,
+  // then we'll call the Search Artist method to get the last searched artist data
   useEffect(() => {
     if (localStorage.getItem("searchedQuery")) {
       let searchedQuery = localStorage.getItem("searchedQuery");
@@ -25,47 +28,64 @@ export default function Home() {
     }
   }, []);
 
+  // User Latest searched query handler
   const changeHandler = (event) => {
     let searchedQuery = event.target.value;
     localStorage.setItem("searchedQuery", searchedQuery);
     setQuery(searchedQuery);
     searchArtist(searchedQuery);
   };
+  // Debouncing/Delaying  the input handler with 0.3s
+  // so that the APIs should be called only when user stops typing
   const debouncedChangeHandler = useMemo(
     () => debounce(changeHandler, 300),
     []
   );
 
+  // The Main SearchArtist Method with the user input query
+  //1. Check for artist_query to be not null or empty
+  //2. Set artist search flag as true
+  //3. Search Artist API call with the provided artist_query
+  //4. Handling response with the response from the API i.e. Success/Failure
+  //5. Set artist search flag as false after the response handling
   const searchArtist = (artist_query) => {
     if (artist_query) {
       setSearchingArtist(true);
+      //API call here
       searchArtistAPI(artist_query)
         .then((res) => {
+          //Success
           setArtistResult(res);
-          localStorage.setItem("artistResults", res);
+          // Will call the getEvents after a second for a smooth UI transition
           setTimeout(getArtistEvents(artist_query), 1000);
           setSearchingArtist(false);
         })
         .catch((err) => {
+          //Failure
           setArtistResult(null);
           setSearchingArtist(false);
         });
     }
   };
 
+  // The Main getArtistEvents Method with the user input query
+  //1. Check for artist_query to be not null or empty
+  //2. Set events search flag as true
+  //3. Get Events API call with the provided artist_query
+  //4. Handling response with the response from the API i.e. Success/Failure
+  //5. Set events search flag as false after the response handling
   const getArtistEvents = (artist_query) => {
     if (artist_query) {
       setSearchingEvents(true);
+      //API call here
       getArtistEventsAPI(artist_query)
         .then((res) => {
-          console.log("Events: ", res);
+          //Success
           setEvents(res);
-          localStorage.setItem("artistEvents", res);
-
           setSearchingEvents(false);
         })
         .catch((err) => {
-          console.log("EVENT ERR: ", err);
+          //Failure
           setEvents([]);
           setSearchingEvents(false);
         });

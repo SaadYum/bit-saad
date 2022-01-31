@@ -5,8 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import GoogleMapReact from "google-map-react";
 
 function EventCard({ event_data, artist_data }) {
-  const [open, setOpen] = useState(false);
-
+  const [openModal, setOpenModal] = useState(false); // For Controlling Event Detail Modal Open/Close
   const closeButtonRef = useRef(null);
 
   return (
@@ -15,7 +14,7 @@ function EventCard({ event_data, artist_data }) {
       <div
         data-tip="Open Details"
         className=" flex flex-col h-44 mx-2 p-4 shadow-xl cursor-pointer hover:scale-110 transition-all duration-200"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpenModal(!openModal)}
       >
         <span className="border-b-2 w-full font-medium">EVENT DETAILS</span>
         <div className="flex py-2">
@@ -43,12 +42,12 @@ function EventCard({ event_data, artist_data }) {
       </div>
 
       {/*Details Modal  */}
-      <Transition.Root show={open} as={Fragment}>
+      <Transition.Root show={openModal} as={Fragment}>
         <Dialog
           as="div"
           className="fixed z-10 inset-0 overflow-y-auto"
           //   initialFocus={closeButtonRef}
-          onClose={setOpen}
+          onClose={setOpenModal}
         >
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
@@ -114,6 +113,8 @@ function EventCard({ event_data, artist_data }) {
                       </a>
                     </div>
                   </div>
+
+                  {/* Google Map Component with venue Marker */}
                   {event_data.venue ? (
                     <div className="sm:w-2/4 h-60 xs">
                       <GoogleMapReact
@@ -139,7 +140,7 @@ function EventCard({ event_data, artist_data }) {
                   <button
                     type="button"
                     className="mt-3 w-full inline-flex justify-center rounded-md hover:brightness-125 outline-none shadow-sm px-4 py-2 bg-white dark:bg-stone-700 text-base font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() => setOpenModal(false)}
                     ref={closeButtonRef}
                   >
                     Close
